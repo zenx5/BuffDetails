@@ -15,13 +15,14 @@
 	<script type="text/javascript" src="../js/popper.min.js"></script>
 	<script type="text/javascript" src="../js/bootstrap.min.js"></script-->
 	
-	<!--script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script-->
-	<link rel="stylesheet" type="text/css" href="../bootstrap.min.css"/>
+	<!--script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap.min.css"/-->
 
-	<!--link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"-->
 
 	<script type="text/javascript" src="../js/ngStorage.min.js"></script>
-	<script type="text/javascript" src="../js/ui-bootstrap-tpls-3.0.6.js"></script>
+	<!--script type="text/javascript" src="../js/ui-bootstrap-tpls-3.0.6.js"></script-->
+	<script type="text/javascript" src="../js/module.js"></script>
+	<script type="text/javascript" src="../js/component.js"></script>
 	<script type="text/javascript" src="../js/app_config.js"></script>
 	<style type="text/css">
 		.resaltar{
@@ -56,7 +57,7 @@
 		</div>
 		<div class="row " style="padding: 10px;" ng-init="toggle_fixed=true">
 			<div class="col-lg-4 col-12 text-center">
-				<h3>Opciones{{sortType}}</h3>
+				<h3>Opciones</h3>
 			</div>
 			<div class="col-lg-4 col-6">
         		<button class="btn btn-outline-light" ng-show="toggle_fixed&&!misBusquedas" ng-click="toggle_fixed=false">Ocultar Fijos [{{dataSelf.length}}]</button>
@@ -237,7 +238,10 @@
 					      		{{findest.paint}}<br>
 					      	</small>
 					      </td>
-					      <td></td>
+					      <td>
+					      	{{elem.date_steam}}<br>
+					      	{{elem.date_scan}}
+					      </td>
 					      <td>
 					      	<span ng-class="{'resaltar':findest.enableprice}">
 					      		{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}
@@ -251,7 +255,7 @@
 					      </td>
 
 					      <td>
-					      	<button class="btn btn-default" ng-click="findest.hidden = true">Hidden</button>
+					      	<button class="btn btn-info" ng-click="findest.hidden = true">Hidden</button>
 					      </td>
 
 					    </tr>
@@ -280,7 +284,11 @@
 					      		</progress-float></td>
 					      <td>{{elem.pattern}}</td>
 					      <td>{{elem.paint}}</td>
-					      <td>{{elem.date}}</td>
+					      <td>
+					      	{{elem.date_steam}}<br>
+					      	{{elem.date_scan}}
+
+					      </td>
 					      <td>{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}</td>
 					      <td>
 					      	<button class="btn btn-primary" ng-click="fixed(elem,-1)" style="padding-left:20px; padding-right:20px;" ><img src="../img/fix.svg" width="10px"></button>
@@ -321,7 +329,10 @@
 					      </td>
 					      <td>{{elem.pattern}}</td>
 					      <td>{{elem.paint}}</td>
-					      <td>{{elem.date}}</td>
+					      <td>
+					      	{{elem.date_steam}}<br>
+					      	{{elem.date_scan}}
+					      </td>
 					      <td>
 					      	
 					      		{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}
@@ -335,13 +346,19 @@
 				</table>
 			</div>
 		</div>
-
-
-		<div class="row">
+		<div class="row justify-content-between">
 			<div class="col-4 ">
 				<money label="Cambio:" step="0.01" value="money.value" unid="money.unid"></money>
 			</div>
 			<div class="col-4">
+
+				<a class="btn btn-info" href="#">Subir</a>
+				
+			</div>
+		</div>
+
+		<div class="row " style="left:40% !important;position: fixed !important; bottom: 0px;">
+			<div >
 				<ul class="pagination justify-content-center">
 			      <li class="page-item" ng-repeat="item in pagination">
 			      	<a class="page-link" href="#" ng-click="page(item.order,item.key)">
@@ -350,11 +367,7 @@
 			      </li>
 			    </ul>
 			</div>
-			<div class="col-4">
-
-				<a class="btn btn-info" href="#">Subir</a>
-				
-			</div>
+			
 		</div>
 		<!-- Preview Img Stickers -->
 
@@ -428,8 +441,7 @@
 			  		ng-disabled="!busqueda.enableitem">
 			  <div class="input-group-prepend">
 			    <div class="input-group-text">
-			    	{{busqueda.stattrak}}
-			      <input type="checkbox"  
+			    	<input type="checkbox"  
 			      	aria-label="Checkbox for following text input"
 			      	ng-model="busqueda.enablestattrak">
 			    	<input-toggle 

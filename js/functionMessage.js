@@ -45,7 +45,16 @@ let functionMessage = (function(){
 							}) === -1){
 								data.items[request.content.page].push(request.content.content);	
 								if(data.items[request.content.page].length > $CANT_ITEMS ){
-									data.items[request.content.page].shift();
+									for(let k = request.content.page ; k <= 4 ; k++) {
+										if(data.items[k].length > $CANT_ITEMS){
+											aux = data.items[ k ].shift();
+											aux.page = k + 2;
+											if(k<4) {
+												data.items[ k + 1 ].push( aux );
+											}
+										}
+									}
+									//port.postMessage({code:"201",content:data.items[request.content.page].shift(),msg:""});
 								}
 								chrome.storage.local.set({items:data.items})
 								try{
