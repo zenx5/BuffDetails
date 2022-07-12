@@ -1,0 +1,12 @@
+<span class="money_container">
+	<b>{{$ctrl.label}}</b>
+	<span class="money_container_value">
+		<input type="text" ng-model="$ctrl.unid" />
+		<input 
+			type="number" 
+			ng-model="$ctrl.value" 
+			min="{{$ctrl.min}}"
+			max="{{$ctrl.max}}"
+			step="{{$ctrl.step}}"/>
+	</span>
+</span>

@@ -1,0 +1,25 @@
+.select-color-box {
+	cursor: pointer;
+	display: block;
+	box-shadow: 1px 1px gray;
+	border-style: inset;
+	border-radius: 15px;
+	padding: 0px;
+	width: 50px;
+	height: 50px;
+	background-color: gray;
+}
+
+.select-color-in {
+	display: block;
+	border-radius: 10px;
+	border-style: unset;
+	width: 40px;
+	height: 40px;
+	content: "";
+	cursor: pointer;
+}
+
+.select-color-in input {
+	display: none;
+}

@@ -1,0 +1,31 @@
+.money_container {
+	border-radius: 10px;
+	background-color: rgba(200,200,200,0.4);
+	padding: 20px;
+}
+
+.money_container_value {
+	margin-left: 5px;
+}
+
+.money_container_value input {
+	border: 1px;
+	height: 30px;
+	border-left: 0px;
+	margin-left: 0px;
+	text-align: center;
+}
+
+.money_container_value input:focus {
+	outline: none;
+}
+
+.money_container_value input[type="text"] {
+	width: 60px;
+	border-radius: 10px 0px 0px 10px;
+}
+
+.money_container_value input[type="number"] {
+	width: 120px;
+	border-radius: 0px 10px 10px 0px;
+}

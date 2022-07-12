@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<!--script type="text/javascript" src="../js/angular.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-slim.min.js"></script>
+	<script type="text/javascript" src="../js/popper.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script-->
+	
+	<!--script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script-->
+	<link rel="stylesheet" type="text/css" href="../bootstrap.min.css"/>
+
+	<!--link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"-->
+
+	<script type="text/javascript" src="../js/ngStorage.min.js"></script>
+	<script type="text/javascript" src="../js/ui-bootstrap-tpls-3.0.6.js"></script>
+	<script type="text/javascript" src="../js/app_config.js"></script>
+	<style type="text/css">
+		.resaltar{
+			font-weight: bold;
+		}
+		.bold,.bold:hover{
+			color: red;
+		}
+
+		.stickerTD{
+	  		width:170px;
+	  		display: block;
+	  	}
+	  	body{
+	  		background-color: #EEE;
+	  	}
+	</style>
+</head>
+<body ng-app="app_config">
+	<div class="container-fluid" ng-controller="control">
+		<audio id="sonido" style="display: none">
+			<source src="notif.mp3" type="audio/mpeg">
+		</audio>
+		<div class="row justify-content-center">
+			<div class="col-2">
+				<img src="../img/logo.png" width="200">
+			</div>
+			<div class="col-6 text-center">
+				<h1>Lista de It<a ng-click="active()">e</a>ms</h1>
+				<small><a href="https://buff.163.com/" target="_blanck">Buff163.com</a></small>
+			</div>
+		</div>
+		<div class="row " style="padding: 10px;" ng-init="toggle_fixed=true">
+			<div class="col-lg-4 col-12 text-center">
+				<h3>Opciones{{sortType}}</h3>
+			</div>
+			<div class="col-lg-4 col-6">
+        		<button class="btn btn-outline-light" ng-show="toggle_fixed&&!misBusquedas" ng-click="toggle_fixed=false">Ocultar Fijos [{{dataSelf.length}}]</button>
+				<button class="btn btn-light" ng-show="!toggle_fixed&&!misBusquedas" ng-click="toggle_fixed=true">Mostrar Fijos [{{dataSelf.length}}]</button>
+				<button type="button" class="mt-2 btn btn-info" data-toggle="modal" data-target="#skinsPred">
+				  Busquedas Predeterminadas
+				</button>
+				
+			</div>
+			<div class="col-lg-4 col-6" ng-init="misBusquedas=false">
+				<button type="button" class="mt-2 btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+				  Busqueda Personalizada
+				</button>
+				<button type="button" class="mt-3 btn" ng-class="{'btn-secondary':misBusquedas,'btn-outline-secondary':!misBusquedas}" ng-click="misBusquedas = !misBusquedas">
+				  Mis Busquedas
+				</button>
+				<input class="form-control mt-3" type="text" ng-model="mifiltro" placeholder="Buscar..."/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 justify-content-center">
+				<table class="table table-hover table-borderless">
+				  <thead>
+				    <tr>
+				      <th ng-show="!misBusquedas" scope="col text-center">{{ {"1":"ASC","-1":"DES"}[sortType] }}</th>
+				      <th scope="col" ng-click="sort('item')">Item
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				  		</th>
+				      <th scope="col"  ng-click="sort('skin')">Skin 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('stickers')">stickers 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('condition')">Condition 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col" ng-click="sort('float')">Float 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('pattern')">Pattern 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('paint')">Paint 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('date')">Date 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-click="sort('price')">Price 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				      <th scope="col"  ng-show="!misBusquedas" >
+				      	Fixed 				      	
+				      </th>
+				      <th scope="col"  ng-show="misBusquedas" >Aciertos 
+				      	<img ng-show="sortType==1" src='../img/arrowup.png'>
+				      	<img ng-show="sortType==-1" src='../img/arrowdown.png'>
+				      </th>
+				    </tr>
+				  </thead>
+				  <tbody ng-show="misBusquedas">
+				  	<tr ng-repeat="elem in wishList track by $index">
+				      <td>
+				      	<span ng-show="elem.enableitem">
+				      		{{elem.item}}<BR>
+				      		<span ng-show="elem.enablestattrak">con StatTrak</span>
+				      	</span>
+				      	<span ng-show="!elem.enableitem">N/A</span>
+				      </td>
+				      <td>
+				      	<span ng-show="elem.enableskin">{{elem.skin}}</span>
+				      	<span ng-show="!elem.enableskin">N/A</span>
+				      </td>
+				      <td class="stickerTD">
+				      	<span ng-show="elem.enablesticker">{{elem.stickers}}</span>
+				      	<span ng-show="!elem.enablesticker">N/A</span>
+				      </td>
+				      <td>
+				      	<span ng-show="elem.enablecondition">{{elem.condition}}</span>
+				      	<span ng-show="!elem.enablecondition">N/A</span>
+				      </td>
+				      <td>
+				      	<span ng-show="elem.enablefloat">
+				      		Min: {{elem.floatmin}}<br>
+				      		Max: {{elem.floatmax}}
+				      	</span>
+				      	<span ng-show="!elem.enablefloat">N/A</span>
+				      </td>
+				      <td>
+				      	<span ng-show="elem.enablepattern">
+				      		<label ng-repeat="pattern in elem.pattern"><b>{{pattern}}</b><span ng-show="!$last">,</span></label>
+				      	</span>
+				      	<span ng-show="!elem.enablepattern">N/A</span>
+				      </td>
+				      <td>
+				      	<span ng-show="elem.enablepaint">
+				      		<label ng-repeat="paint in elem.paint"><b>{{paint}}</b><span ng-show="!$last">,</span></label>
+				      	</span>
+				      	<span ng-show="!elem.enablepaint">N/A</span>
+				      </td>
+				      <td></td>
+				      <td>
+
+				      	<span ng-show="elem.enableprice">
+				      		Min: {{elem.pricemin}}<br>
+				      		Max: {{elem.pricemax}}
+				      	</span>
+				      	<span ng-show="!elem.enableprice">N/A</span>
+				      </td>
+				      <td>
+						    {{elem.find.element.length}}
+				      </td>
+				      <td>
+				      	<button class="btn btn-info" ng-show="!elem.hidden" 
+				      		ng-click="elem.hidden=!elem.hidden">Ocultar</button>
+				      	<button class="btn btn-info" ng-show="elem.hidden"
+				      		ng-click="elem.hidden=!elem.hidden">Mostrar</button>
+				      	<button class="btn btn-danger" ng-click="delWish(elem.id)">X</button>
+				      </td>
+				    </tr>
+				  </tbody>
+
+
+
+
+
+				  <tbody ng-repeat="findest in wishList track by $index" ng-show="findest.find.status&&!misBusquedas" >
+				  		<tr ng-show="!findest.hidden" ng-repeat="elem in findest.find.element track by $index" style="background-color: {{findest.color}};">
+					      <th scope="row">
+					      		<img ng-src="{{elem.img}}" width="100px" />
+					      </th>
+					      <th scope="row" ng-class="{'resaltar':findest.enableitem}">
+					      		<a href="https://buff.163.com/market/goods?goods_id={{elem.id}}" target="_blanck">
+					      			{{elem.item}}
+					      		</a><br>
+					      		Page: {{eval(elem.page)+1}} 
+					      </th>
+					      <td ng-class="{'resaltar':findest.enableskin}">{{elem.skin}}</td>
+					      <td class="stickerTD" ng-class="{'resaltar':findest.enablesticker}">
+					      		<sticker-view ng-show="elem.stickers.length>0" stickers="elem.stickers"></sticker-view>
+					      		<small ng-show="elem.stickers.length == 0"><i>Not Avalaible</i></small>
+					      </td>
+					      <td ng-class="{'resaltar':findest.enablecondition}">{{elem.condition}}</td>
+					      <td>
+					      	<span ng-class="{'resaltar':findest.enablefloat}">
+					      		{{elem.float}}<br>
+					      		<progress-float ng-show="elem.float.length>0" float="elem.float">
+					      		</progress-float>
+					      	</span><br ng-show="findest.enablefloat">
+					      	<small ng-show="findest.enablefloat">
+					      		Min: {{findest.floatmin}}<br>
+					      	</small>
+					      	<small ng-show="findest.enablefloat">
+					      		Max: {{findest.floatmax}}<br>
+					      	</small>
+					      </td>
+					      <td>
+					      	<span ng-class="{'resaltar':findest.enablepattern}">{{elem.pattern}}
+					      	</span><br ng-show="findest.enablepattern">
+					      	<small ng-show="findest.enablepattern">
+					      		{{findest.pattern}}<br>
+					      	</small>
+					      </td>
+					      <td>
+					      	<span ng-class="{'resaltar':findest.enablepaint}">{{elem.paint}}
+					      	</span><br ng-show="findest.enablepaint">
+					      	<small ng-show="findest.enablepaint">
+					      		{{findest.paint}}<br>
+					      	</small>
+					      </td>
+					      <td></td>
+					      <td>
+					      	<span ng-class="{'resaltar':findest.enableprice}">
+					      		{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}
+					      	</span><br ng-show="findest.enableprice">
+					      	<small ng-show="findest.enableprice">
+					      		Min: {{findest.pricemin}}<br>
+					      	</small>
+					      	<small ng-show="findest.enableprice">
+					      		Max: {{findest.pricemax}}<br>
+					      	</small>
+					      </td>
+
+					      <td>
+					      	<button class="btn btn-default" ng-click="findest.hidden = true">Hidden</button>
+					      </td>
+
+					    </tr>
+				  </tbody>
+
+
+
+				  <tbody ng-show="!misBusquedas">
+				  	<tr ng-show="toggle_fixed" ng-repeat="elem in dataSelf" style="background-color: rgba(0,0,255,0.2);">
+					      <th scope="row">
+					      		<img ng-src="{{elem.img}}" width="100px" />
+					      </th>
+					      <th scope="row">
+					      		<a href="https://buff.163.com/market/goods?goods_id={{elem.id}}" target="_blanck">
+					      			{{elem.item}}
+					      		</a>
+					      </th>
+					      <td>{{elem.skin}}</td>
+					      <td class="stickerTD" ng-class="{'resaltar':findest.enablesticker}">
+					      		<sticker-view ng-show="elem.stickers.length>0" stickers="elem.stickers"></sticker-view>
+					      		<small ng-show="elem.stickers.length == 0"><i>Not Avalaible</i></small>
+					      </td>
+					      <td>{{elem.condition}}</td>
+					      <td>{{elem.float}}<br>
+					      		<progress-float ng-show="elem.float.length>0" float="elem.float">
+					      		</progress-float></td>
+					      <td>{{elem.pattern}}</td>
+					      <td>{{elem.paint}}</td>
+					      <td>{{elem.date}}</td>
+					      <td>{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}</td>
+					      <td>
+					      	<button class="btn btn-primary" ng-click="fixed(elem,-1)" style="padding-left:20px; padding-right:20px;" ><img src="../img/fix.svg" width="10px"></button>
+					      </td>
+					    </tr>
+				  </tbody>
+				  <!--- 
+							######################################################################
+							###       ##############       ####         ###       ####  ##########
+							###  ###   ############   ############  #######  #######      ########
+							###  ####  #############  ############  #######  #######  ##  ########
+							###  #####  ###   ########  ##########  #######     ####      ########
+							###  ####  #################  ########  #######  #######  ##  ########
+							###  ###   #################   #######  #######  #######  ##  ########
+							###       #############       ########  #######       ##  ##  ########
+							######################################################################
+				  	--->
+				  <tbody ng-show="!misBusquedas">
+				  		<tr ng-repeat=" elem in dataSteam[currentPage-1] | filter:mifiltro" ng-show="show(elem.id)">
+					      <th scope="row">
+					      		<img ng-src="{{elem.img}}" width="100px" />
+					      </th>
+					      <th scope="row">
+					      		<a href="https://buff.163.com/market/goods?goods_id={{elem.id}}" target="_blanck">
+					      			{{elem.item }} 
+					      		</a>
+					      </th>
+					      <td>{{elem.skin}}</td>
+					      <td class="stickerTD"  ng-class="{'resaltar':findest.enablesticker}">
+					      		<sticker-view ng-show="elem.stickers.length>0" stickers="elem.stickers"></sticker-view>
+					      		<small ng-show="elem.stickers.length == 0"><i>Not Avalaible</i></small>
+					      </td>
+					      <td>{{elem.condition}}</td>
+					      <td>
+					      		{{elem.float}}<br>
+					      		<progress-float ng-show="elem.float.length>0" float="elem.float">
+					      		</progress-float>
+					      </td>
+					      <td>{{elem.pattern}}</td>
+					      <td>{{elem.paint}}</td>
+					      <td>{{elem.date}}</td>
+					      <td>
+					      	
+					      		{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}
+					      	</td>
+					      <td>
+					      	<button class="btn btn-outline-primary" ng-click="fixed(elem,0)" style="padding-left:20px; padding-right:20px;" ><img src="../img/fix.svg" width="10px"></button>
+					      </td>
+					    </tr>
+					    
+				  </tbody>
+				</table>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-4 ">
+				<money label="Cambio:" step="0.01" value="money.value" unid="money.unid"></money>
+			</div>
+			<div class="col-4">
+				<ul class="pagination justify-content-center">
+			      <li class="page-item" ng-repeat="item in pagination">
+			      	<a class="page-link" href="#" ng-click="page(item.order,item.key)">
+			      		<span ng-class="{'resaltar':item.key==currentPage}">{{item.key}}</span>
+			      	</a>
+			      </li>
+			    </ul>
+			</div>
+			<div class="col-4">
+
+				<a class="btn btn-info" href="#">Subir</a>
+				
+			</div>
+		</div>
+		<!-- Preview Img Stickers -->
+
+
+		<!-- Modal -->
+<div class="modal fade" id="skinsPred" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Skins Personalizados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="container">
+      		<span ng-repeat="item in skinsPred">
+      		<div class="row mt-3 justify-content-between">
+      			<div class="col-4">
+      				{{item.name}} <br>
+      			</div>
+      			<div class="col-4">
+      				<input-toggle round="true" state="item.active"></input-toggle>
+      			</div>
+      			<div class="col-2">
+      				<select-color color="item.color" width="40" height="40"></select-color>
+      			</div>
+      			<div class="col-2">
+      				<button ng-click="delPred(item.id)">x</button>
+      			</div>
+      		</div>
+      		<div class="col-8">
+      			{{item.description}}
+      		</div>
+		  	</span>
+		    
+		
+		</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ng-click="checkSkins()"data-dismiss="modal">Buscar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+		<!-- Modal Bisqueda Personalizada-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Busqueda Personalizada</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<!-- ITEM -->
+      		<small class="text-muted">Item</small>
+      		<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enableitem">
+			    </div>
+			  </div>
+			  <input type="text" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.item"
+			  		placeholder="Item Name"
+			  		ng-disabled="!busqueda.enableitem">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			    	{{busqueda.stattrak}}
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablestattrak">
+			    	<input-toggle 
+			    		round="true" 
+			    		labelon="StatTrak" 
+			    		labeloff="Not StatTrak" 
+			    		state="busqueda.stattrak"
+			    		required="!busqueda.enablestattrak"></input-toggle>
+			    </div>
+			  </div>
+
+			</div>
+			<!-- SKIN -->
+      		<small class="text-muted">Skin</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enableskin">
+			    </div>
+			  </div>
+			  <input type="text" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.skin"
+			  		placeholder="Skin"
+			  		ng-disabled="!busqueda.enableskin">
+			</div>
+			<!-- STICKERS -->
+      		<small class="text-muted">Skin</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablesticker">
+			    </div>
+			  </div>
+			   <input-tag class="form-control"
+			  		tags="busqueda.sticker" 
+			  		disabled="!busqueda.enablesticker"></input-tag>
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      0<input type="checkbox" ng-disabled="!busqueda.enablesticker" ng-model="busqueda.slot0">
+			      1<input type="checkbox" ng-disabled="!busqueda.enablesticker" ng-model="busqueda.slot1">
+			      2<input type="checkbox" ng-disabled="!busqueda.enablesticker" ng-model="busqueda.slot2">
+			      3<input type="checkbox" ng-disabled="!busqueda.enablesticker" ng-model="busqueda.slot3">
+			    </div>
+			  </div>
+			 </div>
+      		<!-- CONDITION -->
+			<small class="text-muted">Condition</small>
+      		<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablecondition">
+			    </div>
+			  </div>
+			  <select class="custom-select" ng-disabled="!busqueda.enablecondition" ng-model="busqueda.condition" ng-change="adjustFloat()">
+				  <option selected>All</option>
+				  <option>Factory New</option>
+				  <option>Minimal Wear</option>
+				  <option>Field-Tested</option>
+				  <option>Well-Worn</option>
+				  <option>Battle-Scarred</option>
+				  <option>Not Painted</option>
+			  </select>
+			</div>
+			<!-- FLOAT -->
+
+			<small class="text-muted">Float</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablefloat">
+			    </div>
+			  </div>
+			  <input type="text" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.floatmin"
+			  		placeholder="Float Min (0.00000000...)" 
+			  		ng-disabled="!busqueda.enablefloat">
+			  <input type="text" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.floatmax"
+			  		placeholder="Float Max (0.99999999...)"
+			  		ng-disabled="!busqueda.enablefloat">
+			</div>
+			<!-- PATTERN -->
+			<small class="text-muted">Pattern</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablepattern">
+			    </div>
+			  </div>
+			  <input-tag class="form-control"
+			  		tags="busqueda.pattern" 
+			  		disabled="!busqueda.enablepattern"></input-tag>
+			</div>
+			<!-- PAINT -->
+			<small class="text-muted">Paint</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enablepaint">
+			    </div>
+			  </div>
+			  <input-tag class="form-control"
+			  		tags="busqueda.paint" 
+			  		disabled="!busqueda.enablepaint"></input-tag>
+			</div>
+			<!-- PRICE -->
+			<small class="text-muted">Price</small>
+        	<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <div class="input-group-text">
+			      <input type="checkbox"  
+			      	aria-label="Checkbox for following text input"
+			      	ng-model="busqueda.enableprice">
+			    </div>
+			  </div>
+			  <input type="number" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.pricemin"
+					min="0" 
+					step="0.01" 
+					ng-disabled="!busqueda.enableprice">
+			  <input type="number" class="form-control" 
+			  		aria-label="Text input with checkbox"
+			  		ng-model="busqueda.pricemax"
+			  		min="0" 
+			  		step="0.01"
+			  		placeholder="Float Max (0.99999999...)"
+			  		ng-disabled="!busqueda.enableprice">
+			</div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-succes" ng-click="addPred()" data-dismiss="modal">Agregar a Predeterminados</button>
+      	<select-color color="busqueda.color" width="30" height="30"></select-color>
+        <button type="button" class="btn btn-primary" ng-click="addWishList()" data-dismiss="modal">Agregar a Lista de Deseos</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	</div>
+	
+</body>
+</html>

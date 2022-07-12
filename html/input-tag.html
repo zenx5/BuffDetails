@@ -1,0 +1,6 @@
+<form class="input-tag form-control" ng-class="{'input-tag-disabled': $ctrl.disabled}">
+	<span ng-repeat="tag in $ctrl.tags">{{tag}} <small ng-click="$ctrl.del($event)">x</small></span>
+	<input type="text" 
+		ng-disabled="$ctrl.disabled"
+		ng-model="current" ng-keypress="$ctrl.keypress($event)"/>
+</form>

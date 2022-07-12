@@ -1,0 +1,14 @@
+<div>
+	<span ng-repeat="sticker in $ctrl.stickers" 
+		ng-mouseenter="$ctrl.selected = sticker"
+		ng-mouseleave="$ctrl.selected = undefined"
+		>
+		<img uib-tooltip="{{sticker.name}}" ng-src="{{sticker.img_url}}" width="30px" />
+		
+	</span><br/>
+	<span ng-show="$ctrl.selected != undefined">
+		<img ng-src="{{$ctrl.selected.img_url}}" width="100px"><br>
+		<small>{{$ctrl.selected.name}}</small><br>
+		<small><b>Wear: {{$ctrl.selected.wear}}</b></small>
+	</span>
+</div>

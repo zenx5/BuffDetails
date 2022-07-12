@@ -1,0 +1,11 @@
+.show{
+	display: inline-block;
+	padding: 10px;
+	transition: display 2s;
+}
+
+.hide{
+	display: none;
+	padding: 10px;
+	transition: display 2s;
+}

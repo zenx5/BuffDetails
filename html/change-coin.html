@@ -1,0 +1,6 @@
+<span class="show" ng-class="{'hide':$ctrl.active}" ng-mouseenter="$ctrl.active=true">
+	{{$ctrl.value}} {{$ctrl.symbol.split('|')[0]}}
+</span>
+<span class="hide" ng-class="{'show':$ctrl.active,'hide':!$ctrl.active}" ng-mouseleave="$ctrl.active=false">
+	{{$ctrl.change*$ctrl.value }} {{$ctrl.symbol.split('|')[1]}}
+</span>

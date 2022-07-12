@@ -1,0 +1,32 @@
+{
+	"manifest_version":2,
+	"name":"Buff163 Details",
+	"version":"1.1",
+	"icons":{
+		"16":"img/16.png",
+		"32":"img/32.png",
+		"64":"img/64.png",
+		"128":"img/128.png"
+	},
+	"description":"Esta Extension Notifica cuando un producto especificado esta disponible en Buff163",
+	"background": {
+		"scripts":[
+			"js/functionMessage.js",
+			"js/managerEvent.js",
+			"js/managerPort.js",
+			"js/background.js"],
+    	"persistent": true
+  	},
+	"content_scripts":[{
+		"js":["js/steam.js","js/scanDetail.js"],
+		"matches":["https://buff.163.com/market/*"],
+		"exclude_matches":["https://buff.163.com/market/goods?goods_id=*"],
+		"run_at":"document_end"
+	}],
+	"options_ui":{
+		"page":"html/options.html",
+		"open_in_tab":true
+	},
+	"content_security_policy" : "script-src 'self' 'unsafe-eval' https://g.fp.ps.netease.com/market/file/ https://stackpath.bootstrapcdn.com https://ajax.googleapis.com https://code.jquery.com https://cdn.jsdelivr.net https://gitcdn.github.io/ ; object-src 'self'",
+	"permissions": ["tabs","storage","https://buff.163.com/api/market/*"]
+}

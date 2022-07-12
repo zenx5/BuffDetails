@@ -1,0 +1,22 @@
+.input-tag-disabled {
+	background-color: #ebebe4;
+}
+.input-tag input{
+	border:none;
+}
+
+.input-tag input:focus{
+	outline: none;
+}
+
+.input-tag span {
+	background-color: lightblue;
+	border-radius: 15px;
+	padding: 2px 5px;
+	cursor: pointer;
+	margin-right: 2px;
+}
+
+.input-tag span small {
+	font-weight: bold;
+}

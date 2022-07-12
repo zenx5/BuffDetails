@@ -1,0 +1,9 @@
+<label class="input-toggle">
+    <input ng-disabled="$ctrl.required" ng-model="$ctrl.state" type="checkbox" ng-click="$ctrl.toggle()">
+    <div ng-show="!$ctrl.required" class="input-toggle-slide" ng-class="{'input-toggle-round':$ctrl.round}" >
+    	{{$ctrl.label}}
+    </div>
+    <div ng-show="$ctrl.required">
+    	<i>Disabled</i>
+    </div>
+</label>

@@ -1,0 +1,1 @@
+var managerOnMessage=function(a){console.log("managerEvent");return function(e,b){var c=null;Object.keys(a).forEach(function(d){d===b.name&&(c=a[d])});return c(e,b)}}(functionMessage);
