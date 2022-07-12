@@ -15,10 +15,10 @@
 	<script type="text/javascript" src="../js/popper.min.js"></script>
 	<script type="text/javascript" src="../js/bootstrap.min.js"></script-->
 	
-	<!--script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script-->
-	<link rel="stylesheet" type="text/css" href="../bootstrap.min.css"/>
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<!--link rel="stylesheet" type="text/css" href="../bootstrap.min.css"/-->
 
-	<!--link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"-->
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
 	<script type="text/javascript" src="../js/ngStorage.min.js"></script>
 	<script type="text/javascript" src="../js/ui-bootstrap-tpls-3.0.6.js"></script>
@@ -56,7 +56,7 @@
 		</div>
 		<div class="row " style="padding: 10px;" ng-init="toggle_fixed=true">
 			<div class="col-lg-4 col-12 text-center">
-				<h3>Opciones{{sortType}}</h3>
+				<h3>Opciones</h3>
 			</div>
 			<div class="col-lg-4 col-6">
         		<button class="btn btn-outline-light" ng-show="toggle_fixed&&!misBusquedas" ng-click="toggle_fixed=false">Ocultar Fijos [{{dataSelf.length}}]</button>
@@ -280,7 +280,11 @@
 					      		</progress-float></td>
 					      <td>{{elem.pattern}}</td>
 					      <td>{{elem.paint}}</td>
-					      <td>{{elem.date}}</td>
+					      <td>
+					      	{{elem.date_steam}}<br>
+					      	{{elem.date_scan}}
+
+					      </td>
 					      <td>{{elem.price}} ￥ | {{elem.price*money.value | number:2}} {{money.unid}}</td>
 					      <td>
 					      	<button class="btn btn-primary" ng-click="fixed(elem,-1)" style="padding-left:20px; padding-right:20px;" ><img src="../img/fix.svg" width="10px"></button>

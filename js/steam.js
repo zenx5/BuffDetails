@@ -34,8 +34,8 @@ let steamScan = (function(){
 							img_original: data2.data.items[0].asset_info.info.original_icon_url,
 							link_inspect: data2.data.items[0].asset_info.info.inspect_en_url,
 							stickers: data2.data.items[0].asset_info.info.stickers,
-							date_steam:Date(data2.data.items[0].created_at),
-							date_scan:Date(),
+							date_steam:new Date(data2.data.items[0].created_at),
+							date_scan:new Date(),
 							item : (function(){
 								try{
 									return (item.name.split("|")[0]==="Sticker")?item.name.split("|")[1]:item.name.split("|")[0];

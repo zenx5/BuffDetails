@@ -301,7 +301,7 @@ angular.module("app_config",["ngStorage","ui.bootstrap"])
 		$scope.dataSteam = [];		//Lista de Articulos obtenidos del Servidor
 		$scope.sortType = sessionStorage.getItem('sort');		//Variable para Ordenamiento, 1:Ascendente,-1:Descendente
 		if( $scope.sortType === null ) {
-			$scope.sortType = 0;
+			$scope.sortType = 1;
 		}
 		resetBusqueda();
 		
@@ -555,7 +555,7 @@ angular.module("app_config",["ngStorage","ui.bootstrap"])
 			else{
 				eval2 =function(valor){return valor};
 			}
-			$scope.dataSteam.sort( (elem1, elem2) => {
+			$scope.dataSteam[$scope.currentPage].sort( (elem1, elem2) => {
 				if(eval2(elem1[key]) < eval2(elem2[key])) return $scope.sortType;
 				else return -$scope.sortType
 			})

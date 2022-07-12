@@ -44,7 +44,7 @@
 	addEventListener("load",function(){
 		if(question()){
 			chrome.storage.local.get("licencia",function(data){
-				if((data.active)||(Date.now()<Date.UTC(2020,3,19))){
+				if((data.active)||(Date.now()<Date.UTC(2020,4,29))){
 					interval = setInterval(function(){
 						port.postMessage({type:"control",command:"page",content:null});
 						let currentPage = 0;
